@@ -15,10 +15,10 @@ var svgRanking = d3.select("#barchart")
 d3.csv(
   "https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv",
   function(data) {
-    var numberCities = data.length;
+    numberCities = data.length;
     
     
-    for (var i = 0; i < data.length; i++) {
+    //for (var i = 0; i < data.length; i++) {
       
      // console.log(data[i].Stadt);
 
@@ -27,6 +27,7 @@ d3.csv(
       var x = d3.scaleLinear()
         .domain([0, 100])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
         .range([0, widthRanking]);
+
       svgRanking.append("g")
         .attr("transform", "translate(0," + heightRanking + ")")
         .call(d3.axisBottom(x))
@@ -36,24 +37,27 @@ d3.csv(
 
       // Y axis
       var y = d3.scaleBand()
-      .range([ 0, heightRanking ])
-      .domain(data.map(function(d) { return d.Stadt; }))
-      .padding(.2);
-      svgRanking.append("g")
-      .call(d3.axisLeft(y))
+        .range([ 0, heightRanking ])
+        .domain(data.map(function(d) { return d.Stadt; }))
+        .padding(.2);
+        svgRanking.append("g")
+        .call(d3.axisLeft(y))
 
       //Bars
       svgRanking.selectAll("myRect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("x", x(0) )
-      .attr("y", function(d) { return y(d.Stadt); })
-      .attr("width", function(d) { return x(d.Gesamtwertung); })
-      .attr("height", y.bandwidth() )
-      .attr("fill", "#69b3a2")
+        .data(data)
+        .enter()
+        .append("rect")
+          .attr("class", "bar")
+          .attr("x", x(0) )
+          .attr("y", function(d) { return y(d.Stadt); })
+          .attr("width", function(d) { return x(d.Gesamtwertung); })
+          .attr("height", y.bandwidth() )
+          .attr("fill", /*"#69b3a2"*/getColor)
+          //.style("opacity", 0.6)
 
-    }
+
+    //}
 
     console.log("Staedte Insgesamt: ", numberCities);
   }

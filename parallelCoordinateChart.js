@@ -15,8 +15,9 @@ var svg = d3.select("#my_dataviz")
 // Parse the Data
 d3.csv("https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv", function(data) {
 
+  numberCities = data.length;
 
-  // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Species
+  // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Rang, Stadt and Gesamtwertung
   dimensions = d3.keys(data[0]).filter(function(d) { return d != "Rang" && d != "Stadt" && d != "Gesamtwertung" })
 
   console.log(dimensions);
@@ -46,10 +47,10 @@ d3.csv("https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score
     .selectAll("myPath")
     .data(data)
     .enter().append("path")
-    .attr("d",  path)
-    .style("fill", "none")
-    .style("stroke", "#69b3a2")
-    .style("opacity", 0.5)
+      .attr("class", "parallelCoordinateLine")
+      .attr("d",  path)
+      .style("fill", "none")
+      .style("stroke", /*"#69b3a2"*/getColor)
 
   // Draw the axis:
   svg.selectAll("myAxis")
