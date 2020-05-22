@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Test</title>
+    <title>SmartCityVis</title>
     <meta charset="utf-8" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,13 +8,23 @@
   </head>
   <body>
 
-    <div id="header">
-      <h1 id="headerTitle">Title</h1>
-    </div>
+    <h4 id="headerTitle">Smart City data Bitkom</h1>
 
-    <div id ="barchart"></div>
-    <div id="my_dataviz"></div>
+    <div id="rankingDiv" class="mainDiv">
+      <div id="rankingAreaFilter">
+        <label id="gesamtwertungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesamtwertung" value="" checked/> Gesamtwertung</label>
+        <label id="verwaltungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioVerwaltung"/> Verwaltung</label>
+        <label id="ITLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioIT"/> IT und Kommunikation</label>
+        <label id="umweltLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioUmwelt"/> Energie und Umwelt</label>
+        <label id="mobilityLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioMobility"/> Mobilität</label>
+        <label id="gesellschaftLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesellschaft"/> Gesellschaft</label>
+      </div>
+      <div id ="barchart"></div>
+    </div>
+    <div id="my_dataviz" class="mainDiv"></div>
     
+    <p id ="thanksTo">Seminar und Praktikum wissenschaftliches Arbeiten und Lehren SS 2020, LMU.</p>
+
     <script src="https://d3js.org/d3.v4.js"></script>
 
     <script type="text/javascript" src="helper.js"></script>

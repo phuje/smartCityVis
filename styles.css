@@ -8,40 +8,46 @@ body {
     background-color: #f0f0f2;
     padding: 20px;
 }
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
 
-div{
-  margin: 2em auto;
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+#headerTitle{
+  padding: 10px;
+}
+
+.mainDiv{
+  margin: 0.5em auto;
   padding: 10px;
   background-color: #fff;
   border-radius: 1em;
 }
 
-#barchart {
+#rankingDiv {
   width: 100%;
   float: left;
-  padding: 50px;
+  padding: 20px;
 }
 
 
 #my_dataviz {
   width: 100%;
   float: left;
-  padding: 50px;
+  padding: 20px;
 }
 
 .parallelCoordinateLine{
-  opacity: 0.6;
+  opacity: 0.5;
   width: 200%;
 }
 
 .parallelCoordinateLine:hover{
   opacity: 1;
-  width: 400%;
+  width: 600%;
 }
 
 .bar{
@@ -50,5 +56,19 @@ div{
 
 .bar:hover {
   opacity: 1;
+}
+
+#thanksTo{
+  font-size: small;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+label {
+  border: 1px solid #f0f0f2;
+  padding: 10px;
+  margin:0 0 5px;
+  background: #eeeeee;
+  border-radius: 5px;
 }
 
