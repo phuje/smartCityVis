@@ -1,22 +1,34 @@
 
 var horizontal = false; // means the bars will be vertical and the cities horizontal
 
+
+var svgRanking;
+
 //functions for scaling the data to the x and y axes, set in makeBarChart
 var x;
 var y;
 
+var xAxis;
+var yAxis;
+
+var marginRanking, widthRanking, heightRanking;
+
+var myRect;
+var myData;
 
 d3.csv(
   "https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv",
   function(data) {
+    myData = data;
+
     numberCities = data.length;
 
-     // sort data
-    data.sort(function(b, a) {
+    // sort data
+    myData.sort(function(b, a) {
       return a.Gesamtwertung - b.Gesamtwertung;
     });
 
-    makeBarChart(data, horizontal);
+    makeBarChart(myData, horizontal);
 
     console.log("Staedte Insgesamt: ", numberCities);
   }
@@ -24,93 +36,30 @@ d3.csv(
 
 
 function makeBarChart(data, horizontal){
-  //horizontal means the bars are horizontal (x axis) and the cities are vertical (y axis)
-  if(horizontal){
-    // set the dimensions and margins of the graph
-    var marginRanking = {top: 10, right: 30, bottom: 30, left: 150},
-    widthRanking = 850 - marginRanking.left - marginRanking.right,
-    heightRanking = 1000 - marginRanking.top - marginRanking.bottom;
 
-        // append the svg object to the body of the page
-        var svgRanking = d3.select("#barchart")
-        .append("svg")
-          .attr("width", widthRanking + marginRanking.left + marginRanking.right)
-          .attr("height", heightRanking + marginRanking.top + marginRanking.bottom)
+    marginRanking = {top: 30, right: 30, bottom: 100, left: 50},
+    //widthRanking = 1400 - marginRanking.left - marginRanking.right,
+    heightRanking = 400 - marginRanking.top - marginRanking.bottom;
+
+    // append the svg object to the body of the page
+    svgRanking = d3.select("#barchart")
+      .append("svg")
+        .attr("class", "svgBarChart")
+        .attr("height", heightRanking + marginRanking.top + marginRanking.bottom)
+        //.attr("width", widthRanking + marginRanking.left + marginRanking.right)
         .append("g")
           .attr("transform",
                 "translate(" + marginRanking.left + "," + marginRanking.top + ")");
 
-          // X axis: scale and draw:
-          x = d3.scaleLinear()
-          .domain([0, 100])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-          .range([0, widthRanking]);
-  
-        svgRanking.append("g")
-          .attr("transform", "translate(0," + heightRanking + ")")
-          .call(d3.axisBottom(x))
-          .selectAll("text")
-            .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end");
 
-  
-        // Y axis
-        y = d3.scaleBand()
-          .range([ 0, heightRanking ])
-          .domain(data.map(function(d) { return d.Stadt; }))
-          .padding(.2);
-
-        svgRanking.append("g")
-          .call(d3.axisLeft(y))
-  
-        //Bars
-        svgRanking.selectAll("myRect")
-          .data(data)
-          .enter()
-          .append("rect")
-            .attr("class", "bar")
-            .attr("x", x(0) )
-            .attr("y", function(d) { return y(d.Stadt); })
-            .attr("width", function(d) { return x(d.Gesamtwertung); })
-            .attr("height", y.bandwidth() )
-            .attr("fill", /*"#69b3a2"*/getColor)
-            .on("mouseover", showTooltip)
-            .on("mouseleave", hideTooltip);
-            //.style("opacity", 0.6)
-  }
-  //not horizontal means the bars are vertical (y axis) and the cities are horizontal (x axis)
-  else{
-    var marginRanking = {top: 30, right: 30, bottom: 100, left: 50},
-    widthRanking = 1400 - marginRanking.left - marginRanking.right,
-    heightRanking = 400 - marginRanking.top - marginRanking.bottom;
-
-    // append the svg object to the body of the page
-    var svgRanking = d3.select("#barchart")
-      .append("svg")
-        .attr("width", widthRanking + marginRanking.left + marginRanking.right)
-        .attr("height", heightRanking + marginRanking.top + marginRanking.bottom)
-      .append("g")
-        .attr("transform",
-              "translate(" + marginRanking.left + "," + marginRanking.top + ")");
-
-      // X axis: scale and draw:
-      x = d3.scaleBand()
-        .domain(data.map(function(d) { return d.Stadt; }))     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        .range([0, widthRanking])
-        .padding(0.1);
-
-      svgRanking.append("g")
-        .attr("transform", "translate(0," + heightRanking + ")")
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-          .attr("transform", "translate(-10,0)rotate(-45)")
-          .style("text-anchor", "end");
+      xAxis = svgRanking.append("g");
 
       // Y axis
       y = d3.scaleLinear()
         .range([ heightRanking, 0 ])
         .domain([0, 100]);
 
-      svgRanking.append("g")
+      yAxis = svgRanking.append("g")
       .call(d3.axisLeft(y));
 
       // Add the text label for the Y axis
@@ -123,20 +72,21 @@ function makeBarChart(data, horizontal){
       .text("Score");
 
       //Bars
-      svgRanking.selectAll("myRect")
+      myRect = svgRanking.selectAll("myRect")
         .data(data)
         .enter()
         .append("rect")
           .attr("class", "bar")
-          .attr("x", function(d) { return x(d.Stadt); } )
+          //.attr("x", function(d) { return x(d.Stadt); } )
           .attr("y", function(d) { return y(d.Gesamtwertung); })
-          .attr("width", x.bandwidth())
+          //.attr("width", x.bandwidth())
           .attr("height", function(d) { return heightRanking - y(d.Gesamtwertung); })
           .attr("fill", /*"#69b3a2"*/getColor)
           .on("mouseover", showTooltip)
           .on("mouseleave", hideTooltip);
-          //.style("opacity", 0.6)
-  }
+
+      drawChart(); // render visualisation for specific device width
+  
 }
 
 
@@ -174,9 +124,44 @@ var showTooltip = function(d) {
 };
 
 var hideTooltip = function(d) {
-  //console.log("hideTooltip");
   tooltip
     .style("opacity", 0);
 };
 
+
+// ---------------------------//
+//      RESPONSIVE            //
+// ---------------------------//
+// A function that finishes to draw the chart for a specific device size.
+function drawChart() {
+
+  // get the current width of the div where the chart appear, and attribute it to Svg
+  currentWidth = parseInt(d3.select('#barChart').style('width'), 10);
+  d3.select(".svgBarChart").attr("width", currentWidth);
+
+  // Update the X scale and Axis (here the 20 is just to have a bit of margin)
+
+  // X axis: scale and draw:
+  x = d3.scaleBand()
+    .domain(myData.map(function(d) { return d.Stadt; }))     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+    .range([0, currentWidth-marginRanking.left-marginRanking.right])
+    .padding(0.1);
+
+  xAxis
+    .attr("transform", "translate(0," + heightRanking + ")")
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+      
+
+  // Add the last information needed for the circles: their X position
+  myRect
+    .attr("x", function(d) { return x(d.Stadt); } )
+    .attr("width", x.bandwidth());
+  }
+
+
+// Add an event listener that run the function when dimension change
+window.addEventListener('resize', drawChart );
 

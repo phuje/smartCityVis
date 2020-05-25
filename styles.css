@@ -21,7 +21,7 @@ body {
 }
 
 .mainDiv{
-  margin: 0.5em auto;
+  margin: 10px auto;
   padding: 10px;
   background-color: #fff;
   border-radius: 1em;
@@ -31,6 +31,10 @@ body {
   width: 100%;
   float: left;
   padding: 20px;
+}
+
+#barchart{
+  width: 100%;
 }
 
 
