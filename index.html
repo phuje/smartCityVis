@@ -9,15 +9,16 @@
   <body>
 
     <h4 id="headerTitle">Smart City data Bitkom</h1>
+      <span>The <a href="https://bitkom.org/sites/default/files/2020-04/200416_sb_smart-city-index-1.pdf">Bitkom Smart City Index 2019</a> compares 81 German smart cities and ranks them in different areas on a scale from 0 (bad) to 100 (good).</span>
 
     <div id="rankingDiv" class="mainDiv">
       <div id="rankingAreaFilter">
-        <label id="gesamtwertungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesamtwertung" value="" checked/> Gesamtwertung</label>
-        <label id="verwaltungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioVerwaltung"/> Verwaltung</label>
-        <label id="ITLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioIT"/> IT und Kommunikation</label>
-        <label id="umweltLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioUmwelt"/> Energie und Umwelt</label>
-        <label id="mobilityLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioMobility"/> Mobilität</label>
-        <label id="gesellschaftLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesellschaft"/> Gesellschaft</label>
+        <label id="gesamtwertungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesamtwertung" value="" checked onclick="filterRanking()"/> Gesamtwertung</label>
+        <label id="verwaltungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioVerwaltung" onclick="filterRanking()"/> Verwaltung</label>
+        <label id="ITLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioIT" onclick="filterRanking()"/> IT und Kommunikation</label>
+        <label id="umweltLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioUmwelt" onclick="filterRanking()"/> Energie und Umwelt</label>
+        <label id="mobilityLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioMobility" onclick="filterRanking()"/> Mobilität</label>
+        <label id="gesellschaftLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesellschaft" onclick="filterRanking()"/> Gesellschaft</label>
       </div>
       <div id ="barchart"></div>
     </div>

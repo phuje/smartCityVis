@@ -1,7 +1,4 @@
 
-var horizontal = false; // means the bars will be vertical and the cities horizontal
-
-
 var svgRanking;
 
 //functions for scaling the data to the x and y axes, set in makeBarChart
@@ -16,6 +13,10 @@ var marginRanking, widthRanking, heightRanking;
 var myRect;
 var myData;
 
+var category = "Gesamtwertung"; //for one of th five main categories (filter), initial is main score
+
+var dimensions;
+
 d3.csv(
   "https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv",
   function(data) {
@@ -23,19 +24,22 @@ d3.csv(
 
     numberCities = data.length;
 
+    dimensions = d3.keys(data[0]).filter(function(d) { return d != "Rang" && d != "Stadt"});
+    console.log(dimensions);
+
     // sort data
     myData.sort(function(b, a) {
       return a.Gesamtwertung - b.Gesamtwertung;
     });
 
-    makeBarChart(myData, horizontal);
-
     console.log("Staedte Insgesamt: ", numberCities);
+
+    makeBarChart();
   }
 );
 
-
-function makeBarChart(data, horizontal){
+//draws y axis, and adds labels
+function makeBarChart(){
 
     marginRanking = {top: 30, right: 30, bottom: 100, left: 50},
     //widthRanking = 1400 - marginRanking.left - marginRanking.right,
@@ -71,23 +75,45 @@ function makeBarChart(data, horizontal){
       .style("text-anchor", "middle")
       .text("Score");
 
-      //Bars
-      myRect = svgRanking.selectAll("myRect")
-        .data(data)
-        .enter()
-        .append("rect")
-          .attr("class", "bar")
-          //.attr("x", function(d) { return x(d.Stadt); } )
-          .attr("y", function(d) { return y(d.Gesamtwertung); })
-          //.attr("width", x.bandwidth())
-          .attr("height", function(d) { return heightRanking - y(d.Gesamtwertung); })
-          .attr("fill", /*"#69b3a2"*/getColor)
-          .on("mouseover", showTooltip)
-          .on("mouseleave", hideTooltip);
+      //category = "Gesamtwertung";
+      //category = "Energie und Umwelt";
 
-      drawChart(); // render visualisation for specific device width
+      drawRanking();
+
+}
+
+function drawRanking(){
+  addBars(myData, category);
+
+  drawChart(); // render visualisation for specific device width
   
 }
+
+//adds bars of bar chart - according to selected category
+function addBars(data, category){
+
+
+    //reset, remove last bars
+    d3.selectAll(".bar").remove();
+
+
+    //Bars
+    myRect = svgRanking.selectAll("myRect")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("class", "bar")
+      //.attr("x", function(d) { return x(d.Stadt); } )
+      .attr("y", function(d) { return y(d[category]); })
+      //.attr("width", x.bandwidth())
+      .attr("height", function(d) { return heightRanking - y(d[category]); })
+      .attr("fill", /*"#69b3a2"*/getColor)
+      .on("mouseover", showTooltip)
+      .on("mouseleave", hideTooltip);
+
+}
+
+
 
 
 // ---------------------------//
@@ -112,10 +138,10 @@ var showTooltip = function(d) {
   //console.log("showTooltip"+x(d.Stadt));
   tooltip
     .style("opacity", 1)
-    .html(d.Stadt +", Score: "+ d.Gesamtwertung)
+    .html(d.Stadt +", Score: "+ d[category])
     //.style("left", (d3.mouse(this)[0]+70) + "px")
     //.style("top", (d3.mouse(this)[1]) + "px")
-    .style("top", y(d.Gesamtwertung)+120+ "px")
+    .style("top", y(d[category])+120+ "px")
     //.style("left", x(d.Stadt) + "px")
     .style("left", event.pageX + "px");
     //.style("top", event.pageY+ "px");
@@ -155,7 +181,7 @@ function drawChart() {
       .style("text-anchor", "end");
       
 
-  // Add the last information needed for the circles: their X position
+  // Add the last information needed: their X position
   myRect
     .attr("x", function(d) { return x(d.Stadt); } )
     .attr("width", x.bandwidth());
@@ -165,3 +191,21 @@ function drawChart() {
 // Add an event listener that run the function when dimension change
 window.addEventListener('resize', drawChart );
 
+
+function filterRanking(){
+  if(document.getElementById("radioGesamtwertung").checked){
+    category = "Gesamtwertung";
+  } else if(document.getElementById("radioVerwaltung").checked){
+    category = "Verwaltung";
+  } else if(document.getElementById("radioIT").checked){
+    category = "IT und Kommunikation";
+  } else if(document.getElementById("radioUmwelt").checked){
+    category = "Energie und Umwelt";
+  } else if(document.getElementById("radioMobility").checked){
+    category = "Mobilität";
+  } else if(document.getElementById("radioGesellschaft").checked){
+    category = "Gesellschaft";
+  }
+
+  drawRanking();
+}
