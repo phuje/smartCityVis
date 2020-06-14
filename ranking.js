@@ -15,7 +15,6 @@ var myData;
 
 var category = "Gesamtwertung"; //for one of th five main categories (filter), initial is main score
 
-var dimensions;
 
 d3.csv(
   "https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv",
@@ -24,13 +23,10 @@ d3.csv(
 
     numberCities = data.length;
 
-    dimensions = d3.keys(data[0]).filter(function(d) { return d != "Rang" && d != "Stadt"});
-    console.log(dimensions);
-
     // sort data
-    myData.sort(function(b, a) {
+    /*myData.sort(function(b, a) {
       return a.Gesamtwertung - b.Gesamtwertung;
-    });
+    });*/
 
     console.log("Staedte Insgesamt: ", numberCities);
 
@@ -83,8 +79,8 @@ function makeBarChart(){
 }
 
 function drawRanking(){
-  addBars(myData, category);
 
+  addBars(myData, category);
   drawChart(); // render visualisation for specific device width
   
 }
@@ -104,55 +100,15 @@ function addBars(data, category){
     .append("rect")
       .attr("class", "bar")
       //.attr("x", function(d) { return x(d.Stadt); } )
-      .attr("y", function(d) { return y(d[category]); })
       //.attr("width", x.bandwidth())
-      .attr("height", function(d) { return heightRanking - y(d[category]); })
+      .attr("y", function(d) { return y(0); })
+      .attr("height", 0)
       .attr("fill", /*"#69b3a2"*/getColor)
       .on("mouseover", showTooltip)
       .on("mouseleave", hideTooltip);
 
 }
 
-
-
-
-// ---------------------------//
-//      TOOLTIP               //
-// ---------------------------//
-
-// -1- Create a tooltip div that is hidden by default:
-var tooltip = d3
-  .select("#barchart")
-  .append("div")
-  .style("opacity", 0)
-  .attr("class", "tooltip")
-  .style("background-color", "black")
-  .style("border-radius", "5px")
-  .style("padding", "10px")
-  .style("color", "white")
-  .style("position", "absolute");
-  //.style("display", "inline-flex");
-
-// -2- Create 3 functions to show / update (when mouse move) / hide the tooltip
-var showTooltip = function(d) {
-  //console.log("showTooltip"+x(d.Stadt));
-  tooltip
-    .style("opacity", 1)
-    .html(d.Stadt +", Score: "+ d[category])
-    //.style("left", (d3.mouse(this)[0]+70) + "px")
-    //.style("top", (d3.mouse(this)[1]) + "px")
-    .style("top", y(d[category])+120+ "px")
-    //.style("left", x(d.Stadt) + "px")
-    .style("left", event.pageX + "px");
-    //.style("top", event.pageY+ "px");
-    //.style("left", 1000 + "px")
-    //.style("top", 200+ "px");
-};
-
-var hideTooltip = function(d) {
-  tooltip
-    .style("opacity", 0);
-};
 
 
 // ---------------------------//
@@ -184,12 +140,58 @@ function drawChart() {
   // Add the last information needed: their X position
   myRect
     .attr("x", function(d) { return x(d.Stadt); } )
-    .attr("width", x.bandwidth());
+    .attr("width", x.bandwidth())
+    .transition().duration(800)
+      .attr("y", function(d) { return y(d[category]); })
+      .attr("height", function(d) { return heightRanking - y(d[category]); });
   }
 
 
 // Add an event listener that run the function when dimension change
 window.addEventListener('resize', drawChart );
+
+
+
+
+// ---------------------------//
+//      TOOLTIP               //
+// ---------------------------//
+
+// -1- Create a tooltip div that is hidden by default:
+var tooltip = d3
+  .select("#barchart")
+  .append("div")
+  .style("opacity", 0)
+  .attr("class", "tooltip")
+  .style("background-color", "black")
+  .style("border-radius", "5px")
+  .style("padding", "10px")
+  .style("color", "white")
+  .style("position", "absolute");
+  //.style("display", "inline-flex");
+
+// -2- Create 3 functions to show / update (when mouse move) / hide the tooltip
+var showTooltip = function(d) {
+  //console.log("showTooltip"+x(d.Stadt));
+  tooltip
+    .style("opacity", 1)
+    .html(d.Stadt +", Score: "+ d[category])
+    //.style("left", (d3.mouse(this)[0]+70) + "px")
+    //.style("top", (d3.mouse(this)[1]) + "px")
+    .style("top", y(d[category])+130+ "px")
+    //.style("left", x(d.Stadt) + "px")
+    .style("left", event.pageX + "px");
+    //.style("top", event.pageY+ "px");
+    //.style("left", 1000 + "px")
+    //.style("top", 200+ "px");
+};
+
+var hideTooltip = function(d) {
+  tooltip
+    .style("opacity", 0);
+};
+
+
 
 
 function filterRanking(){
@@ -206,6 +208,36 @@ function filterRanking(){
   } else if(document.getElementById("radioGesellschaft").checked){
     category = "Gesellschaft";
   }
+  highlightFilterLabel(category);
 
   drawRanking();
+}
+
+function highlightFilterLabel(label){
+  //unhighlight all
+  d3.selectAll(".filterLabel")
+    .style("background", "#eeeeee")
+    .style("color", "black");
+  
+  switch(label){
+    case "Gesamtwertung": 
+      d3.select("#gesamtwertungLabel").style("background", "#82006E").style("color", "white");
+      break;
+    case "Verwaltung": 
+      d3.select("#verwaltungLabel").style("background", "#82006E").style("color", "white");
+      break;
+    case "IT und Kommunikation":
+      d3.select("#ITLabel").style("background", "#82006E").style("color", "white");
+      break;
+    case "Energie und Umwelt": 
+      d3.select("#umweltLabel").style("background", "#82006E").style("color", "white");
+      break;
+    case "Mobilität": 
+      d3.select("#mobilityLabel").style("background", "#82006E").style("color", "white");
+      break;
+    case "Gesellschaft": 
+      d3.select("#gesellschaftLabel").style("background", "#82006E").style("color", "white");
+      break;
+
+  }
 }

@@ -76,3 +76,14 @@ label {
   border-radius: 5px;
 }
 
+label:hover {
+  background:rgb(202, 202, 202);
+  cursor:pointer;
+  opacity: 0.8;
+}
+
+#gesamtwertungLabel{
+  background: #82006E;
+  color: white;
+}
+
