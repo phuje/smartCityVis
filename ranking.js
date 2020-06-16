@@ -11,6 +11,7 @@ var yAxis;
 var marginRanking, widthRanking, heightRanking;
 
 var myRect;
+
 var myData;
 
 var category = "Gesamtwertung"; //for one of th five main categories (filter), initial is main score
@@ -19,7 +20,7 @@ var category = "Gesamtwertung"; //for one of th five main categories (filter), i
 d3.csv(
   "https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv",
   function(data) {
-    myData = data;
+    myData = data.slice();
 
     numberCities = data.length;
 
@@ -28,11 +29,15 @@ d3.csv(
       return a.Gesamtwertung - b.Gesamtwertung;
     });*/
 
+
     console.log("Staedte Insgesamt: ", numberCities);
+    console.log("data", data);
 
     makeBarChart();
   }
 );
+
+
 
 //draws y axis, and adds labels
 function makeBarChart(){
@@ -71,22 +76,20 @@ function makeBarChart(){
       .style("text-anchor", "middle")
       .text("Score");
 
-      //category = "Gesamtwertung";
-      //category = "Energie und Umwelt";
-
-      drawRanking();
+      drawRanking(myData);
 
 }
 
-function drawRanking(){
+//needed to update bar chart depending on filter and ordering
+function drawRanking(newData){
 
-  addBars(myData, category);
-  drawChart(); // render visualisation for specific device width
+  addBars(newData);
+  drawChart(newData); // render visualisation for specific device width
   
 }
 
-//adds bars of bar chart - according to selected category
-function addBars(data, category){
+//adds bars of bar chart 
+function addBars(thisData){
 
 
     //reset, remove last bars
@@ -95,7 +98,7 @@ function addBars(data, category){
 
     //Bars
     myRect = svgRanking.selectAll("myRect")
-    .data(data)
+    .data(thisData)
     .enter()
     .append("rect")
       .attr("class", "bar")
@@ -210,7 +213,7 @@ function filterRanking(){
   }
   highlightFilterLabel(category);
 
-  drawRanking();
+  updateRanking();
 }
 
 function highlightFilterLabel(label){
@@ -240,4 +243,28 @@ function highlightFilterLabel(label){
       break;
 
   }
+}
+
+//orders ranking from highest to lowest score in selected category
+function updateRanking(){
+  var orderedData;
+  orderedData = myData;
+
+  if(document.getElementById("orderCheckbox").checked){ //order by current category
+    console.log("orderRanking");
+      
+    orderedData.sort(function(b, a) {
+      return a[category] - b[category];
+    });
+
+  } 
+  else{ // take initial order from high to low Gesamtwertung
+    orderedData.sort(function(b, a) {
+      return a["Gesamtwertung"] - b["Gesamtwertung"];
+    });
+  }
+    
+  drawRanking(orderedData);
+  //console.log("FINAL ordereddata",orderedData);
+
 }

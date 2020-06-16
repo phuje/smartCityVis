@@ -87,3 +87,7 @@ label:hover {
   color: white;
 }
 
+#orderLabel{
+  float: right;
+}
+
