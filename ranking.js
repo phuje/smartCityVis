@@ -181,7 +181,7 @@ var showTooltip = function(d) {
     .html(d.Stadt +", Score: "+ d[category])
     //.style("left", (d3.mouse(this)[0]+70) + "px")
     //.style("top", (d3.mouse(this)[1]) + "px")
-    .style("top", y(d[category])+130+ "px")
+    .style("top", y(d[category])+150+ "px")
     //.style("left", x(d.Stadt) + "px")
     .style("left", event.pageX + "px");
     //.style("top", event.pageY+ "px");
