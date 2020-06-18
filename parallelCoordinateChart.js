@@ -2,7 +2,7 @@
   // set the dimensions and margins of the graph
   var margin = {top: 30, right: 10, bottom: 10, left: 0},
     width = 800 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+    height = 550 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#pcpDiv")
@@ -47,8 +47,6 @@
     .domain(dimensions);
 
 
-
-
     // Draw the lines
     paths = svg
       .selectAll("myPath")
@@ -58,6 +56,7 @@
         .attr("d",  path)
         .style("fill", "none")
         .style("stroke", /*"#69b3a2"*/getColor)
+        .on("mouseover", showInfo);
 
         
     // Draw the axis:
@@ -82,14 +81,12 @@
 
   })
 
-      
-
-
   // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
   function path(d) {
     return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
   }
 
+  //finishes drawing the chart adapted to current device width
   function drawPCP(){
     
     // get the current width of the div where the chart appear, and attribute it to Svg
@@ -113,5 +110,40 @@
   // Add an event listener that run the function when dimension change
   window.addEventListener('resize', drawPCP );
 
+
+  // ---------------------------//
+  //      Info                 //
+  // ---------------------------//
+
+  // -1- Create a tooltip div that is hidden by default:
+  var pcpInfo = d3
+    .select("#pcpInfo")
+    //.append("div")
+    .style("opacity", 1)
+    .attr("class", "tooltip")
+    .style("background-color", "black")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "white")
+    .html("Stadt - Gesamtwertung - Rang");
+    //.style("position", "absolute");
+    //.style("display", "inline-flex");
+
+  // -2- Create 3 functions to show / update (when mouse move) / hide the tooltip
+  var showInfo = function(d) {
+    pcpInfo
+      .style("opacity", 1)
+      .html(d.Stadt +" - Gesamtwertung: "+ d["Gesamtwertung"]+" - Rang: "+d.Rang);
+        /*"<br> Verwaltung: "+d.Verwaltung+
+        "<br> IT&Kommunikation: "+d["IT und Kommunikation"]+
+        "<br> Energie & Umwelt: "+d["Energie und Umwelt"]+
+        "<br> Mobilität: "+d["Mobilität"]+
+        "<br> Gesellschaft: "+d.Gesellschaft)*/;
+  };
+
+  var hideInfo = function(d) {
+    pcpInfo
+      .style("opacity", 0);
+  };
 
 }

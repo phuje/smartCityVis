@@ -38,10 +38,14 @@ body {
 }
 
 
-#pcpDiv {
+#pcpContainer {
   width: 50%;
   float: left;
   padding: 20px;
+}
+
+#pcpDiv{
+  width : 100%;
 }
 
 .parallelCoordinateLine{
@@ -51,7 +55,7 @@ body {
 
 .parallelCoordinateLine:hover{
   opacity: 1;
-  width: 600%;
+  width: 1000%;
 }
 
 .bar{
