@@ -41,7 +41,7 @@ body {
 #pcpContainer {
   width: 50%;
   float: left;
-  padding: 20px;
+  padding: 10px;
 }
 
 #pcpDiv{
@@ -98,5 +98,12 @@ label:hover {
 #thanksToDiv{
   width: 100%;
   float: left;
+}
+
+#scatterplotDiv{
+  width: 48%;
+  float: left;
+  margin-left: 10px;
+  padding: 10px;
 }
 

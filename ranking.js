@@ -2,8 +2,8 @@
   var svgRanking;
 
   //functions for scaling the data to the x and y axes, set in makeBarChart
-  var x;
-  var y;
+  var xRanking;
+  var yRanking;
 
   var xAxis;
   var yAxis;
@@ -96,12 +96,12 @@
         xAxis = svgRanking.append("g");
 
         // Y axis
-        y = d3.scaleLinear()
+        yRanking = d3.scaleLinear()
           .range([ heightRanking, 0 ])
           .domain([0, 100]);
 
         yAxis = svgRanking.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(yRanking));
 
         // Add the text label for the Y axis
         svgRanking.append("text")
@@ -140,7 +140,7 @@
         .attr("class", "bar")
         //.attr("x", function(d) { return x(d.Stadt); } )
         //.attr("width", x.bandwidth())
-        .attr("y", function(d) { return y(0); })
+        .attr("y", function(d) { return yRanking(0); })
         .attr("height", 0)
         .attr("fill", /*"#69b3a2"*/getColor)
         .on("mouseover", showTooltip)
@@ -163,14 +163,14 @@
     // Update the X scale and Axis (here the 20 is just to have a bit of margin)
 
     // X axis: scale and draw:
-    x = d3.scaleBand()
-      .domain(myData.map(function(d) { return d.Stadt; }))     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+    xRanking = d3.scaleBand()
+      .domain(myData.map(function(d) { return d.Stadt; })) // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
       .range([0, currentWidth-marginRanking.left-marginRanking.right])
       .padding(0.1);
 
     xAxis
       .attr("transform", "translate(0," + heightRanking + ")")
-      .call(d3.axisBottom(x))
+      .call(d3.axisBottom(xRanking))
       .selectAll("text")
         .attr("transform", "translate(-10,0)rotate(-45)")
         .style("text-anchor", "end");
@@ -178,11 +178,11 @@
 
     // Add the last information needed: their X position
     myRect
-      .attr("x", function(d) { return x(d.Stadt); } )
-      .attr("width", x.bandwidth())
+      .attr("x", function(d) { return xRanking(d.Stadt); } )
+      .attr("width", xRanking.bandwidth())
       .transition().duration(800)
-        .attr("y", function(d) { return y(d[category]); })
-        .attr("height", function(d) { return heightRanking - y(d[category]); });
+        .attr("y", function(d) { return yRanking(d[category]); })
+        .attr("height", function(d) { return heightRanking - yRanking(d[category]); });
     }
 
 
@@ -217,8 +217,8 @@
       .html(d.Stadt +", Score: "+ d[category])
       //.style("left", (d3.mouse(this)[0]+70) + "px")
       //.style("top", (d3.mouse(this)[1]) + "px")
-      .style("top", y(d[category])+160+ "px")
-      //.style("left", x(d.Stadt) + "px")
+      .style("top", yRanking(d[category])+160+ "px")
+      //.style("left", xRanking(d.Stadt) + "px")
       .style("left", event.pageX + "px");
       //.style("top", event.pageY+ "px");
   };

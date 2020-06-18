@@ -1,21 +1,21 @@
 {
   // set the dimensions and margins of the graph
-  var margin = {top: 30, right: 10, bottom: 10, left: 0},
-    width = 800 - margin.left - margin.right,
-    height = 550 - margin.top - margin.bottom;
+  var marginPCP = {top: 30, right: 10, bottom: 10, left: 10},
+    width = 800 - marginPCP.left - marginPCP.right,
+    height = 550 - marginPCP.top - marginPCP.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#pcpDiv")
   .append("svg")
     .attr("class", "svgPcp")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width + marginPCP.left + marginPCP.right)
+    .attr("height", height + marginPCP.top + marginPCP.bottom)
   .append("g")
     .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+          "translate(" + marginPCP.left + "," + marginPCP.top + ")");
 
-  var x;
-  var y = {};
+  var xPCP;
+  var yPCP = {};
   var myData;
 
   var paths;
@@ -36,12 +36,12 @@
     
     for (i in dimensions) {
       name = dimensions[i]
-      y[name] = d3.scaleLinear()
+      yPCP[name] = d3.scaleLinear()
         .domain( /*d3.extent(data, function(d) { return +d[name]; })*/[0, 100] )
         .range([height, 0])
     }
 
-    x = d3.scalePoint()
+    xPCP = d3.scalePoint()
     .range([0, width])
     .padding(1)
     .domain(dimensions);
@@ -65,9 +65,9 @@
       .data(dimensions).enter()
       .append("g")
         // I translate this element to its right position on the x axis
-        .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+        .attr("transform", function(d) { return "translate(" + xPCP(d) + ")"; })
         // And I build the axis with the call function
-        .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+        .each(function(d) { d3.select(this).call(d3.axisLeft().scale(yPCP[d])); })
         // Add axis title
         
     axes.append("text")
@@ -83,7 +83,7 @@
 
   // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
   function path(d) {
-    return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+    return d3.line()(dimensions.map(function(p) { return [xPCP(p), yPCP[p](d[p])]; }));
   }
 
   //finishes drawing the chart adapted to current device width
@@ -95,14 +95,14 @@
 
 
     // Build the X scale -> it find the best position for each Y axis
-    x = d3.scalePoint()
+    xPCP = d3.scalePoint()
       .range([0, currentWidth])
       .padding(1)
       .domain(dimensions);
 
     paths.attr("d", path);
 
-    axes.attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+    axes.attr("transform", function(d) { return "translate(" + xPCP(d) + ")"; })
 
 
   }
