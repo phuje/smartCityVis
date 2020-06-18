@@ -38,8 +38,8 @@ body {
 }
 
 
-#my_dataviz {
-  width: 100%;
+#pcpDiv {
+  width: 50%;
   float: left;
   padding: 20px;
 }
@@ -89,5 +89,10 @@ label:hover {
 
 #orderLabel{
   float: right;
+}
+
+#thanksToDiv{
+  width: 100%;
+  float: left;
 }
 
