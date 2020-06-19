@@ -18,6 +18,8 @@
     var scatterPoints;
     var xLabel; 
     var xAxisScatter;
+    var verticalGridLines;
+    var horizontalGridLines;
 
     //Read the data
     d3.csv("https://raw.githubusercontent.com/phuje/smartCityVis/master/data/smartCityData-inhabitants.csv", function(data) {
@@ -74,15 +76,17 @@
             .attr("x", -marginScatter.top)
             .text("Einwohnerzahl")
 
+        
+        buildGrid();
+
         adjustScatterplotX(); //adjust based on screen width
 
-        buildGrid();
     }
 
     //builds the grid lines according to the data 
     function buildGrid(){
         //horizontal grid
-        svgScatter.selectAll(".hlines").data(yScatter.ticks(8)).enter()
+        horizontalGridLines = svgScatter.selectAll(".hlines").data(yScatter.ticks(8)).enter()
         .append("line")
             .attr("class", "hlines")
             .attr("x1", 0)
@@ -91,13 +95,13 @@
             .attr("y2", function(d){ return yScatter(d);});
 
         //vertical grid
-        svgScatter.selectAll(".vlines").data(xScatter.ticks(11)).enter()
-        .append("line")
-            .attr("class", "vlines")
-            .attr("x1", function(d){ return xScatter(d);})
-            .attr("x2", function(d){ return xScatter(d);})
-            .attr("y1", 0)
-            .attr("y2", heightScatter);
+        verticalGridLines =svgScatter.selectAll(".vlines").data(xScatter.ticks(11)).enter()
+            .append("line")
+                .attr("class", "vlines")
+                .attr("x1", function(d){ return xScatter(d);})
+                .attr("x2", function(d){ return xScatter(d);})
+                .attr("y1", 0)
+                .attr("y2", heightScatter);
     }
 
 
@@ -125,6 +129,12 @@
         .call(d3.axisBottom(xScatter));
 
     scatterPoints.attr("cx", function (d) { return xScatter(d.Gesamtwertung); } )
+
+    verticalGridLines
+        .attr("x1", function(d){ return xScatter(d);})
+        .attr("x2", function(d){ return xScatter(d);})
+    horizontalGridLines
+        .attr("x2", currentWidth-marginScatter.left-marginScatter.right)
 
 
   }
