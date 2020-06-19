@@ -214,7 +214,7 @@
     //console.log("showTooltip"+x(d.Stadt));
     tooltip
       .style("opacity", 1)
-      .html(d.Stadt +", Score: "+ d[category])
+      .html(d.Stadt +"<br> Score: "+ d[category])
       //.style("left", (d3.mouse(this)[0]+70) + "px")
       //.style("top", (d3.mouse(this)[1]) + "px")
       .style("top", yRanking(d[category])+160+ "px")

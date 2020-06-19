@@ -2,7 +2,7 @@
     // set the dimensions and margins of the graph
     var marginScatter = {top: 50, right: 80, bottom: 90, left: 100},
         widthScatter = 680 - marginScatter.left - marginScatter.right,
-        heightScatter = 520 - marginScatter.top - marginScatter.bottom;
+        heightScatter = 550 - marginScatter.top - marginScatter.bottom;
 
     // append the svg object to the body of the page
     var svgScatter = d3.select("#scatterplotDiv")
@@ -14,6 +14,7 @@
                 "translate(" + marginScatter.left + "," + marginScatter.top + ")");
 
     var xScatter;
+    var yScatter;
     var scatterPoints;
     var xLabel; 
     var xAxisScatter;
@@ -38,7 +39,7 @@
             .call(d3.axisBottom(xScatter));
 
         // Add Y axis
-        var yScatter = d3.scaleLinear()
+        yScatter = d3.scaleLinear()
             .domain([0, d3.max(data, function(d) { return +d.Einwohner })])
             .range([ heightScatter, 0]);
         svgScatter.append("g")
@@ -50,12 +51,13 @@
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", function (d) { return xScatter(d.Gesamtwertung); } )
-            .attr("cy", function (d) { return yScatter(d.Einwohner); } )
-            .attr("r", 3)
-            .style("fill", getColor)
-            .style("opacity", 0.5)
-            .on("mouseover", showTooltipScatter)
+                .attr("class", "circleScatter")
+                .attr("cx", function (d) { return xScatter(d.Gesamtwertung); } )
+                .attr("cy", function (d) { return yScatter(d.Einwohner); } )
+                .attr("r", 4)
+                .style("fill", getColor)
+                .on("mouseover", showTooltipScatter)
+                .on("mouseleave", hideTooltipScatter)
 
         // Add X axis label:
         xLabel = svgScatter.append("text")
@@ -73,10 +75,29 @@
             .text("Einwohnerzahl")
 
         adjustScatterplotX(); //adjust based on screen width
+
+        buildGrid();
     }
 
-    function showTooltipScatter(){
+    //builds the grid lines according to the data 
+    function buildGrid(){
+        //horizontal grid
+        svgScatter.selectAll(".hlines").data(yScatter.ticks(8)).enter()
+        .append("line")
+            .attr("class", "hlines")
+            .attr("x1", 0)
+            .attr("x2", widthScatter)
+            .attr("y1", function(d){ return yScatter(d);})
+            .attr("y2", function(d){ return yScatter(d);});
 
+        //vertical grid
+        svgScatter.selectAll(".vlines").data(xScatter.ticks(11)).enter()
+        .append("line")
+            .attr("class", "vlines")
+            .attr("x1", function(d){ return xScatter(d);})
+            .attr("x2", function(d){ return xScatter(d);})
+            .attr("y1", 0)
+            .attr("y2", heightScatter);
     }
 
 
@@ -110,4 +131,42 @@
 
   // Add an event listener that run the function when dimension change
   window.addEventListener('resize', adjustScatterplotX );
+
+
+  // ---------------------------//
+  //      TOOLTIP               //
+  // ---------------------------//
+
+  // -1- Create a tooltip div that is hidden by default:
+  var tooltipScatter = d3
+    .select("#barchart")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "black")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "white")
+    .style("position", "absolute");
+    //.style("display", "inline-flex");
+
+  // -2- Create 3 functions to show / update (when mouse move) / hide the tooltip
+  var showTooltipScatter = function(d) {
+    //console.log("showTooltip"+x(d.Stadt));
+    tooltipScatter
+      .style("opacity", 1)
+      .html(d.Stadt +"<br> Gesamtwertung: "+ d.Gesamtwertung +"<br> Einwohner: "+d.Einwohner)
+      //.style("left", (d3.mouse(this)[0]+70) + "px")
+      //.style("top", (d3.mouse(this)[1]) + "px")
+      //.style("top", yScatter(d.Einwohner)+160+ "px")
+      //.style("left", xScatter(d.Gesamtwertung) + "px")
+      .style("left", event.pageX + "px")
+      .style("top", event.pageY+ "px");
+  };
+
+  var hideTooltipScatter = function(d) {
+    tooltipScatter
+      .style("opacity", 0);
+  };
+
 }

@@ -107,3 +107,19 @@ label:hover {
   padding: 10px;
 }
 
+.circleScatter{
+  opacity: 0.5;
+}
+
+.circleScatter:hover{
+  opacity: 1;
+}
+
+.vlines,
+.hlines {
+  stroke: #757575;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+  stroke-opacity: 0.2;
+}
+
