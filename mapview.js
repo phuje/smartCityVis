@@ -95,7 +95,6 @@ function mapAdaptSize(el,att) {
 	map_selectedSizeAtt=att;
 	document.getElementById('mapSize').checked=false;
 	document.getElementById('mapInhabitants').checked=false;
-	document.getElementById('mapSizeTotal').checked=false;
 	el.checked=true;
 	drawSVG();
 }
