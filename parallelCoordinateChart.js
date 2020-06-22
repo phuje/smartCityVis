@@ -22,7 +22,7 @@
   var axes;
 
   // Parse the Data
-  d3.csv("https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv", function(data) {
+  d3.csv("https://raw.githubusercontent.com/phuje/smartCityVis/master/data/smartCityData-inhabitants.csv", function(data) {
 
     numberCities = data.length;
     myData = data;
@@ -36,9 +36,15 @@
     
     for (i in dimensions) {
       name = dimensions[i]
-      yPCP[name] = d3.scaleLinear()
-        .domain( /*d3.extent(data, function(d) { return +d[name]; })*/[0, 100] )
-        .range([height, 0])
+      if(name != "Einwohner"){
+        yPCP[name] = d3.scaleLinear()
+          .domain( /*d3.extent(data, function(d) { return +d[name]; })*/[0, 100] )
+          .range([height, 0])
+      } else{
+        yPCP[name] = d3.scaleLinear()
+          .domain( d3.extent(data, function(d) { return +d[name]; }))
+          .range([height, 0])
+      }
     }
 
     xPCP = d3.scalePoint()
@@ -56,7 +62,9 @@
         .attr("d",  path)
         .style("fill", "none")
         .style("stroke", getColorByGesamtwertung)
-        .on("mouseover", showInfo);
+        .on("mouseover", showInfo)
+        .on("mouseleave", hideInfo)
+
 
         
     // Draw the axis:
@@ -119,7 +127,7 @@
   var pcpInfo = d3
     .select("#pcpInfo")
     //.append("div")
-    .style("opacity", 1)
+    .style("opacity", 0)
     .attr("class", "tooltip")
     .style("background-color", "black")
     .style("border-radius", "5px")
@@ -134,7 +142,9 @@
 
     pcpInfo
       .style("opacity", 1)
-      .html(d.Stadt +" - Gesamtwertung: "+ d["Gesamtwertung"]+" - Rang: "+d.Rang);
+      .html(d.Stadt +" - Gesamtwertung: "+ d["Gesamtwertung"]+" - Rang: "+d.Rang)
+      .style("left", event.pageX -40+ "px")
+      .style("top", event.pageY-70+ "px");
         /*"<br> Verwaltung: "+d.Verwaltung+
         "<br> IT&Kommunikation: "+d["IT und Kommunikation"]+
         "<br> Energie & Umwelt: "+d["Energie und Umwelt"]+
