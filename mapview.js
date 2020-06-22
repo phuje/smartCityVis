@@ -181,7 +181,16 @@ function drawSVG() {
 							'<br>IT und Kommunikation: '+d['IT und Kommunikation']+
 							'<br>Energie und Umwelt: '+d['Energie und Umwelt']+
 							'<br>Mobilität: '+d.Mobilität+
-							'<br>Gesellschaft: '+d.Gesellschaft)	
+							'<br>Gesellschaft: '+d.Gesellschaft+'<br>')	
+						.style('color','white')
+						.style('background',function() { 
+							var txt=this.innerHTML;
+							txt=txt.substring(txt.indexOf(map_selectedAtt)+map_selectedAtt.length+2)
+							txt=txt.substring(0,txt.indexOf('<br>'));
+							var obj={};
+							obj[map_selectedAtt]=parseFloat(txt);
+							return getColorMap(obj); 
+						})
 						.style("left", (d3.event.pageX+30) + "px")		
 						.style("top", (d3.event.pageY - 28) + "px")
 						.style("width",150+'px')
