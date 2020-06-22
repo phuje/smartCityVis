@@ -159,7 +159,7 @@ function drawSVG() {
 						} else if(map_selectedSizeAtt=='inhabitants') {
 							var inh=d['inhabitants'];
 							return Math.ceil(30/inh_max*inh);
-						} else if(map_selectedAtt=='Gesamtwertung') {
+						} else if(map_selectedSizeAtt=='Gesamtwertung') {
 							return Math.ceil((d['Gesamtwertung']-20)/5);
 						}
 						
