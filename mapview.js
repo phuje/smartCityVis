@@ -89,6 +89,7 @@ function filterMap(el,att) {
 	document.getElementById('mapSociety').checked=false;
 	el.checked=true;
 	drawSVG();
+	initWordcloudData();
 }
 
 function mapAdaptSize(el,att) {
