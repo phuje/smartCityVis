@@ -81,23 +81,67 @@ function initMinMaxVals() {
 function filterMap(el,att) {
 	map_selectedAtt=att;
 	console.log(map_selectedAtt);
-	document.getElementById('mapTotal').checked=false;
+	//not needed with radio button
+	/*document.getElementById('mapTotal').checked=false;
 	document.getElementById('mapAdmin').checked=false;
 	document.getElementById('mapIt').checked=false;
 	document.getElementById('mapEnergy').checked=false;
 	document.getElementById('mapMobile').checked=false;
 	document.getElementById('mapSociety').checked=false;
-	el.checked=true;
+	el.checked=true;*/
 	drawSVG();
 	initWordcloudData();
+
+	//unhighlight all
+    d3.selectAll(".mapfilterLabel")
+      .style("background", "#eeeeee")
+      .style("color", "black");
+	
+	//highlight selected with colour
+    switch(att){
+      case "Gesamtwertung": 
+        d3.select("#mapfilterLabel1").style("background", "#82006E").style("color", "white");
+        break;
+      case "Verwaltung": 
+        d3.select("#mapfilterLabel2").style("background", "#82006E").style("color", "white");
+        break;
+      case "IT und Kommunikation":
+        d3.select("#mapfilterLabel3").style("background", "#82006E").style("color", "white");
+        break;
+      case "Energie und Umwelt": 
+        d3.select("#mapfilterLabel4").style("background", "#82006E").style("color", "white");
+        break;
+      case "Mobilität": 
+        d3.select("#mapfilterLabel5").style("background", "#82006E").style("color", "white");
+        break;
+      case "Gesellschaft": 
+        d3.select("#mapfilterLabel6").style("background", "#82006E").style("color", "white");
+		break;
+	}
 }
 
 function mapAdaptSize(el,att) {
 	map_selectedSizeAtt=att;
-	document.getElementById('mapSize').checked=false;
+	//not needed with radio button
+	/*document.getElementById('mapSize').checked=false;
 	document.getElementById('mapInhabitants').checked=false;
-	el.checked=true;
+	el.checked=true;*/
 	drawSVG();
+
+	//unhighlight all
+	d3.selectAll(".mapfilterLabelSize")
+	.style("background", "#eeeeee")
+	.style("color", "black");
+	
+	//highlight selected with colour
+	switch(att){
+	case "size": 
+		d3.select("#mapfilterLabelSize1").style("background", "#82006E").style("color", "white");
+		break;
+	case "inhabitants": 
+		d3.select("#mapfilterLabelSize2").style("background", "#82006E").style("color", "white");
+		break;
+	}
 }
 
 function getColorMap(d){

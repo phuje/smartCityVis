@@ -72,10 +72,13 @@ body {
 
 label {
   border: 1px solid #f0f0f2;
-  padding: 10px;
-  margin:0 0 5px;
   background: #eeeeee;
   border-radius: 5px;
+}
+
+.filterLabel{
+  padding: 10px;
+  margin:0 0 5px;
 }
 
 label:hover {
@@ -137,3 +140,34 @@ div.tooltip {
   stroke-opacity: 0.2;
 }
 
+#mapFilterDiv{
+  float: left;
+  text-align: center;
+  display: block;
+}
+
+.mapFilterLabel{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5;
+  display: block;
+  padding: 2px;
+}
+
+.mapFilterLabelSize{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5;
+  display: block;
+  padding: 2px;
+}
+
+#mapfilterLabel1{
+  background: #82006E;
+  color: white;
+}
+
+#mapfilterLabelSize1{
+  background: #82006E;
+  color: white;
+}
