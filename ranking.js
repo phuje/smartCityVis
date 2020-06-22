@@ -78,9 +78,9 @@
   //draws y axis, and adds labels
   function makeBarChart(){
 
-      marginRanking = {top: 30, right: 30, bottom: 100, left: 50},
+      marginRanking = {top: 10, right: 20, bottom: 100, left: 50},
       //widthRanking = 1400 - marginRanking.left - marginRanking.right,
-      heightRanking = 400 - marginRanking.top - marginRanking.bottom;
+      heightRanking = 300 - marginRanking.top - marginRanking.bottom;
 
       // append the svg object to the body of the page
       svgRanking = d3.select("#barchart")
@@ -217,10 +217,10 @@
       .html(d.Stadt +"<br> Score: "+ d[category])
       //.style("left", (d3.mouse(this)[0]+70) + "px")
       //.style("top", (d3.mouse(this)[1]) + "px")
-      .style("top", yRanking(d[category])+160+ "px")
+      //.style("top", yRanking(d[category])+130+ "px")
       //.style("left", xRanking(d.Stadt) + "px")
-      .style("left", event.pageX + "px");
-      //.style("top", event.pageY+ "px");
+      .style("left", event.pageX -40+ "px")
+      .style("top", event.pageY-70+ "px");
   };
 
   var hideTooltip = function(d) {

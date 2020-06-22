@@ -57,7 +57,7 @@
                 .attr("cx", function (d) { return xScatter(d.Gesamtwertung); } )
                 .attr("cy", function (d) { return yScatter(d.Einwohner); } )
                 .attr("r", 4)
-                .style("fill", getColor)
+                .style("fill", getColorByGesamtwertung)
                 .on("mouseover", showTooltipScatter)
                 .on("mouseleave", hideTooltipScatter)
 

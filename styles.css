@@ -49,17 +49,15 @@ body {
 }
 
 .parallelCoordinateLine{
-  opacity: 0.5;
-  width: 200%;
+  opacity: 1;
 }
 
 .parallelCoordinateLine:hover{
-  opacity: 1;
-  width: 1000%;
+  stroke-width: 2px;
 }
 
 .bar{
-  opacity: 0.6;
+  opacity: 0.9;
 }
 
 .bar:hover {
@@ -118,17 +116,13 @@ div.tooltip {
     pointer-events: none;			
 }
 
-.circleMap{
-  
-}
-
 .circleMap:hover{
   stroke-width:3px;
   stroke:#000000;
 }
 
 .circleScatter{
-  opacity: 0.5;
+  opacity: 0.9;
 }
 
 .circleScatter:hover{

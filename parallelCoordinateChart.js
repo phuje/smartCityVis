@@ -55,7 +55,7 @@
         .attr("class", "parallelCoordinateLine")
         .attr("d",  path)
         .style("fill", "none")
-        .style("stroke", /*"#69b3a2"*/getColor)
+        .style("stroke", getColorByGesamtwertung)
         .on("mouseover", showInfo);
 
         
@@ -131,6 +131,7 @@
 
   // -2- Create 3 functions to show / update (when mouse move) / hide the tooltip
   var showInfo = function(d) {
+
     pcpInfo
       .style("opacity", 1)
       .html(d.Stadt +" - Gesamtwertung: "+ d["Gesamtwertung"]+" - Rang: "+d.Rang);
@@ -139,6 +140,7 @@
         "<br> Energie & Umwelt: "+d["Energie und Umwelt"]+
         "<br> Mobilität: "+d["Mobilität"]+
         "<br> Gesellschaft: "+d.Gesellschaft)*/;
+    
   };
 
   var hideInfo = function(d) {
