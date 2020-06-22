@@ -10,7 +10,46 @@
 
     <h4 id="headerTitle">Smart City Index 2019 (Bitkom)</h1>
       <span>Der <a href="https://bitkom.org/sites/default/files/2020-04/200416_sb_smart-city-index-1.pdf">Bitkom Smart City Index 2019</a> vergleicht 81 deutsche Smart Cities und bewertet sie auf einer Skala von 0 (am schlechtesten) - 100 (am besten).</span>
-
+	<div style="clear:both;">
+		<div id="mapview" class="mainDiv" style="float:left;width:30%;margin:5px;height:500px"></div>
+		<div class="mainDiv" style="float:left;width:30%;margin:5px;height:500px">
+			<h3>Bewertung der Deutschen Großstädte</h3>
+			
+			<h4>Farbe gemäß Index (blau ist smart)</h4>
+			
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapTotal" checked onclick="filterMap(this,'Gesamtwertung')"/> 
+			Gesamtwertung
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapAdmin" onclick="filterMap(this,'Verwaltung')"/> 
+			Verwaltung
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapIt" onclick="filterMap(this,'IT und Kommunikation')"/> 
+			IT und Kommunikation
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapEnergy" onclick="filterMap(this,'Energie und Umwelt')"/> 
+			Energie und Umwelt
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapMobile" onclick="filterMap(this,'Mobilität')"/> 
+			Mobilität
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapSociety" onclick="filterMap(this,'Gesellschaft')"/> 
+			Gesellschaft
+			</div>
+			<h4>Größe auf Karte</h4>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapSize" checked onclick="mapAdaptSize(this,'size')"/> 
+			Fläche
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapInhabitants" onclick="mapAdaptSize(this,'inhabitants')"/> 
+			Einwohner
+			</div>
+			<div style="background:rgb(200,200,200);margin:3px;"><input type="checkbox" id = "mapSizeTotal" onclick="mapAdaptSize(this,'Gesamtwertung')"/> 
+			Gesamtwertung
+			</div>
+			
+		</div>
+		<div id="wordcloud" class="mainDiv" style="float:left;width:30%;margin:5px;height:500px">
+		</div>
+	</div>
     <div id="rankingDiv" class="mainDiv">
       <div id="rankingAreaFilter">
         <label class="filterLabel" id="gesamtwertungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesamtwertung" value="" checked onclick="filterRanking()"/> Gesamtwertung</label>
@@ -24,7 +63,7 @@
       </div>
       <div id ="barchart"></div>
     </div>
-
+	
     <div id = "pcpContainer" class="mainDiv">
       <div id="pcpDiv"></div>
       <div id="pcpInfo"></div>
@@ -40,6 +79,6 @@
     <script type="text/javascript" src="ranking.js"></script>
     <script type="text/javascript" src="parallelCoordinateChart.js"></script>
     <script type="text/javascript" src="scatterplot.js"></script>
-
+	<script type="text/javascript" src="mapview.js"></script>
   </body>
 </html>
