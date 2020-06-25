@@ -171,3 +171,20 @@ div.tooltip {
   background: #82006E;
   color: white;
 }
+
+.dotRed {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dotBlue {
+  height: 10px;
+  width: 10px;
+  background-color: #0101DF;
+  border-radius: 50%;
+  display: inline-block;
+}
+
