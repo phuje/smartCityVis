@@ -1,6 +1,6 @@
 {
   // set the dimensions and margins of the graph
-  var marginPCP = {top: 30, right: 10, bottom: 10, left: 10},
+  var marginPCP = {top: 30, right: 5, bottom: 10, left: 5},
     width = 800 - marginPCP.left - marginPCP.right,
     height = 550 - marginPCP.top - marginPCP.bottom;
 
@@ -28,7 +28,7 @@
     myData = data;
 
     // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Rang, Stadt and Gesamtwertung
-    dimensions = d3.keys(data[0]).filter(function(d) { return d != "Rang" && d != "Stadt" && d != "Gesamtwertung" })
+    dimensions = d3.keys(data[0]).filter(function(d) { return d != "Rang" && d != "Stadt" /*&& d != "Gesamtwertung"*/ })
 
     console.log(dimensions);
 

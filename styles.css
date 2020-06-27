@@ -39,7 +39,7 @@ body {
 
 
 #pcpContainer {
-  width: 50%;
+  width: 55%;
   float: left;
   padding: 10px;
 }
@@ -53,7 +53,8 @@ body {
 }
 
 .parallelCoordinateLine:hover{
-  stroke-width: 2px;
+    stroke-width:3px;
+  
 }
 
 .bar{
@@ -102,7 +103,7 @@ label:hover {
 }
 
 #scatterplotDiv{
-  width: 48%;
+  width: 43%;
   float: left;
   margin-left: 10px;
   padding: 10px;
@@ -130,6 +131,8 @@ div.tooltip {
 
 .circleScatter:hover{
   opacity: 1;
+  stroke-width:2px;
+  stroke:#000000;
 }
 
 .vlines,
