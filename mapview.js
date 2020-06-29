@@ -161,7 +161,7 @@ function drawSVG() {
 	var projection = d3.geoMercator()
 		.center([10.5, 51.25])                // GPS of location to zoom on
 		.scale(2000)                       // This is like the zoom
-		.translate([ width/4, height/2 ])
+		.translate([ 200, 250 ])
 	// Load external data and boot
 	d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson", function(data){
 		// Filter data
