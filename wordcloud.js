@@ -55,7 +55,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#69b3a2';
+			word.col='#39a0ca';
 		}
 		words.push(word);
 		i++;
@@ -69,7 +69,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#69b3a2';
+			word.col='#39a0ca';
 		}
 		words.push(word);
 		i++;
@@ -83,7 +83,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#69b3a2';
+			word.col='#39a0ca';
 		}
 		words.push(word);
 		i++;
@@ -97,7 +97,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#69b3a2';
+			word.col='#39a0ca';
 		}
 		words.push(word);
 		i++;
@@ -111,7 +111,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#69b3a2';
+			word.col='#39a0ca';
 		}
 		words.push(word);
 		i++;
@@ -157,10 +157,11 @@ function draw(words) {
         .style("font-size", function(d) { return d.size; })
         .style("fill", function(d) { return d.col; })
         .attr("text-anchor", "middle")
-        .style("font-family", "Impact")
+		.style("font-family", "Impact")
+		.transition().duration(800)
         .attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-        })
+		})
         .text(function(d) { return d.text; });
 }
 }
