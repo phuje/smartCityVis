@@ -55,7 +55,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#39a0ca';
+			word.col='#027665';
 		}
 		words.push(word);
 		i++;
@@ -69,7 +69,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#39a0ca';
+			word.col='#027665';
 		}
 		words.push(word);
 		i++;
@@ -83,7 +83,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#39a0ca';
+			word.col='#027665';
 		}
 		words.push(word);
 		i++;
@@ -97,7 +97,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#39a0ca';
+			word.col='#027665';
 		}
 		words.push(word);
 		i++;
@@ -111,7 +111,7 @@ function initWordcloudData() {
 		word.col='#aabbaa';
 		if(map_selectedAtt==word.area) {
 			word.size=30;
-			word.col='#39a0ca';
+			word.col='#027665';
 		}
 		words.push(word);
 		i++;
