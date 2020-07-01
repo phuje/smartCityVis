@@ -9,8 +9,11 @@
   <body>
 
     <h4 id="headerTitle">Smart City Index 2019 (Bitkom)</h1>
-      <span>Der <a href="https://bitkom.org/sites/default/files/2020-04/200416_sb_smart-city-index-1.pdf">Bitkom Smart City Index 2019</a> vergleicht 81 deutsche Smart Cities und bewertet sie auf einer Skala von 0 (am schlechtesten) - 100 (am besten).</span>
-
+      <span>Der <a href="https://www.bitkom.org/sites/default/files/2019-10/191015_smart-city-index_gesamt.pdf">Bitkom Smart City Index 2019</a> 
+        vergleicht 81 deutsche Smart Cities und bewertet sie auf einer Skala von 
+        <span class ="dotRed"></span> 0 (am schlechtesten) - <span class="dotBlue"></span> 100 (am besten). <br>
+        Der Bitkom Studienbericht dazu findet sich <a href="https://bitkom.org/sites/default/files/2020-04/200416_sb_smart-city-index-1.pdf">hier</a></span>
+	
     <div id="rankingDiv" class="mainDiv">
       <div id="rankingAreaFilter">
         <label class="filterLabel" id="gesamtwertungLabel"><input type="radio" name = "rankingArea" class = "radioButtonRanking" id="radioGesamtwertung" value="" checked onclick="filterRanking()"/> Gesamtwertung</label>
@@ -24,22 +27,61 @@
       </div>
       <div id ="barchart"></div>
     </div>
-
+	<div style="clear:both;">
+		<div id="mapview" class="mainDiv" style="float:left;width:30%;margin:5px;height:500px"></div>
+		<div id ="mapFilterDiv" class="mainDiv" style="float:left;width:30%;margin:5px;height:500px">
+			<h3>Bewertung der Deutschen Großstädte</h3>
+			
+			<h4>Farbe gemäß Index (blau ist smart)</h4>
+			
+			<label class="mapFilterLabel" id="mapFilterLabel1"><input type="radio" name="mapCategory" id = "mapTotal" checked onclick="filterMap(this,'Gesamtwertung')"/> 
+			Gesamtwertung
+      </label>
+			<label class="mapFilterLabel" id="mapFilterLabel2"><input type="radio" name="mapCategory" id = "mapAdmin" onclick="filterMap(this,'Verwaltung')"/> 
+			Verwaltung
+			</label>
+			<label class="mapFilterLabel" id="mapFilterLabel3"><input type="radio" name="mapCategory" id = "mapIt" onclick="filterMap(this,'IT und Kommunikation')"/> 
+			IT und Kommunikation
+			</label>
+			<label class="mapFilterLabel" id="mapFilterLabel4"><input type="radio" name="mapCategory" id = "mapEnergy" onclick="filterMap(this,'Energie und Umwelt')"/> 
+			Energie und Umwelt
+			</label class="mapFilterLabel">
+			<label class="mapFilterLabel" id="mapFilterLabel5"><input type="radio" name="mapCategory" id = "mapMobile" onclick="filterMap(this,'Mobilität')"/> 
+			Mobilität
+			</label>
+			<label class="mapFilterLabel" id="mapFilterLabel6"><input type="radio" name="mapCategory" id = "mapSociety" onclick="filterMap(this,'Gesellschaft')"/> 
+			Gesellschaft
+			</label>
+			<h4>Größe auf Karte</h4>
+			<label class="mapFilterLabelSize" id ="mapFilterLabelSize1"><input type="radio" name="mapSizeFilter" id = "mapSize" checked onclick="mapAdaptSize(this,'size')"/> 
+			Fläche
+			</label>
+			<label class="mapFilterLabelSize" id ="mapFilterLabelSize2"><input type="radio" name="mapSizeFilter" id = "mapInhabitants" onclick="mapAdaptSize(this,'inhabitants')"/> 
+			Einwohner
+			</label>
+			
+		</div>
+		<div id="wordcloud" class="mainDiv" style="float:left;width:35%;margin:5px;height:500px">
+		</div>
+	</div>
     <div id = "pcpContainer" class="mainDiv">
       <div id="pcpDiv"></div>
       <div id="pcpInfo"></div>
     </div>
-
+<div id="paral"></div>
     <div id="scatterplotDiv" class="mainDiv"></div>
     
     <div id="thanksToDiv"> <p id ="thanksTo">Seminar und Praktikum wissenschaftliches Arbeiten und Lehren SS 2020, LMU.</p></div>
-
+		<script src="https://bl.ocks.org/syntagmatic/raw/3341641/render-queue.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
+<!-- Load d3-cloud -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 
     <script type="text/javascript" src="helper.js"></script>
     <script type="text/javascript" src="ranking.js"></script>
     <script type="text/javascript" src="parallelCoordinateChart.js"></script>
     <script type="text/javascript" src="scatterplot.js"></script>
-
+	<script type="text/javascript" src="mapview.js"></script>
+	<script type="text/javascript" src="wordcloud.js"></script>
   </body>
 </html>
