@@ -10,7 +10,12 @@ var myColor = d3.scaleSequential()
 var map_selectedAtt='Gesamtwertung';
 var map_selectedSizeAtt='size';
 initMinMaxVals();
-drawSVG();
+
+
+var svg;
+var projection;
+var div;
+var bubbles;
 
 function initMinMaxVals() {
 	var i=0;
@@ -52,12 +57,12 @@ function initMinMaxVals() {
 		}
 		i++;
 	}
-	console.log('SIZE MIN: '+size_min+', MAX: '+size_max);
-	console.log('INHABITANTS MIN: '+inh_min+', MAX: '+inh_max);
+	//console.log('SIZE MIN: '+size_min+', MAX: '+size_max);
+	//console.log('INHABITANTS MIN: '+inh_min+', MAX: '+inh_max);
 	// ADD SMART CITY ATTS:
 	d3.csv("https://raw.githubusercontent.com/phuje/Data-test/master/smartCity-score-general.csv",
 		function(data) {
-			console.log(data);
+			//console.log(data);
 			var i=0;
 			while(i<data.length) {
 				var j=0;
@@ -80,16 +85,9 @@ function initMinMaxVals() {
 
 function filterMap(el,att) {
 	map_selectedAtt=att;
-	console.log(map_selectedAtt);
-	//not needed with radio button
-	/*document.getElementById('mapTotal').checked=false;
-	document.getElementById('mapAdmin').checked=false;
-	document.getElementById('mapIt').checked=false;
-	document.getElementById('mapEnergy').checked=false;
-	document.getElementById('mapMobile').checked=false;
-	document.getElementById('mapSociety').checked=false;
-	el.checked=true;*/
-	drawSVG();
+	//console.log(map_selectedAtt);
+
+	updateBubbles();
 	initWordcloudData();
 
 	//unhighlight all
@@ -122,11 +120,8 @@ function filterMap(el,att) {
 
 function mapAdaptSize(el,att) {
 	map_selectedSizeAtt=att;
-	//not needed with radio button
-	/*document.getElementById('mapSize').checked=false;
-	document.getElementById('mapInhabitants').checked=false;
-	el.checked=true;*/
-	drawSVG();
+
+	updateBubbles();
 
 	//unhighlight all
 	d3.selectAll(".mapfilterLabelSize")
@@ -151,16 +146,16 @@ function getColorMap(d){
     return color(d[map_selectedAtt]);
 }
 
-function drawSVG() {
-	document.getElementById('mapview').innerHTML='';
+function drawMap() {
+	//document.getElementById('mapview').innerHTML='';
 	// The svg
-	var svg = d3.select('#mapview').append("svg")
+	svg = d3.select('#mapview').append("svg")
 		.attr("width", 500)
 		.attr("height", 800);
 	// Map and projection
-	var projection = d3.geoMercator()
+	projection = d3.geoMercator()
 		.center([10.5, 51.25])                // GPS of location to zoom on
-		.scale(2000)                       // This is like the zoom
+		.scale(2100)                       // This is like the zoom
 		.translate([ 200, 250 ])
 	// Load external data and boot
 	d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson", function(data){
@@ -172,104 +167,143 @@ function drawSVG() {
 			.data(data.features)
 			.enter()
 			.append("path")
-				.attr("fill", "#333333")
+				.attr("fill", "#88888C")
 				.attr("d", d3.geoPath()
-            .projection(projection)
-          )
+					.projection(projection)
+				)
 			.style("stroke", "black")
-			.style("opacity", .3)
-		console.log(city_markers);
+			.style("opacity", .5)
+		//console.log(city_markers);
 		
 		// Add Tooltip Box
 		// Define the div for the tooltip
-		var div = d3.select('#mapview').append("div")	
+		div = d3.select('#mapview').append("div")	
 				.attr("class", "tooltip")				
 				.style("opacity", 0);
 		
-		// Add circles:
-		svg
-			.selectAll("circles")
-			.data(city_markers)
-			.enter()
-			.append("circle")
-				.attr("cx", function(d){ 
-				return projection([d.lat_lng.lng, d.lat_lng.lat])[0] })
-				.attr("cy", function(d){ 
-				return projection([d.lat_lng.lng, d.lat_lng.lat])[1] })
-				.attr("r", function(d) {
-						if(map_selectedSizeAtt=='size') {
-							var size=d['size'];
-							return Math.ceil(15/size_max*size); 
-						} else if(map_selectedSizeAtt=='inhabitants') {
-							var inh=d['inhabitants'];
-							return Math.ceil(30/inh_max*inh);
-						} else if(map_selectedSizeAtt=='Gesamtwertung') {
-							return Math.ceil((d['Gesamtwertung']-20)/5);
-						}
-						
-					}
-				)
-				.attr("class","circleMap")
-					.style("fill", function(d) { return getColorMap(d); })
-				.attr("stroke", "#69b3a2")
-				.attr("stroke-width", 1)
-				.attr("fill-opacity", 1)
-				.on("mouseover", function(d) {		
-					div.transition()		
-						.duration(200)		
-						.style("opacity", .9);		
-					div	.html('<b>'+d.name+'</b><br>Bundesland: '+d.land+
-							'<br>Einwohner: '+d.inhabitants+'<br>Fläche: '+d.size+' km2'+
-							'<br>Gesamtwertung: '+d.Gesamtwertung+
-							'<br>Verwaltung: '+d.Verwaltung+
-							'<br>IT und Kommunikation: '+d['IT und Kommunikation']+
-							'<br>Energie und Umwelt: '+d['Energie und Umwelt']+
-							'<br>Mobilität: '+d.Mobilität+
-							'<br>Gesellschaft: '+d.Gesellschaft+'<br>')	
-						.style('color','white')
-						.style('background',function() { 
-							var txt=this.innerHTML;
-							txt=txt.substring(txt.indexOf(map_selectedAtt)+map_selectedAtt.length+2)
-							txt=txt.substring(0,txt.indexOf('<br>'));
-							var obj={};
-							obj[map_selectedAtt]=parseFloat(txt);
-							return getColorMap(obj); 
-						})
-						.style("left", (d3.event.pageX+30) + "px")		
-						.style("top", (d3.event.pageY - 28) + "px")
-						.style("width",150+'px')
-						.style("height",180+'px');	
-				})	
-				.on("mouseout", function(d) {		
-					div.transition()		
-						.duration(500)		
-						.style("opacity", 0);	
-				})
-			console.log(city_markers);
-			svg.selectAll('text')
-				.data(city_markers)
-				.enter()
-				.append('svg:text')
-				.attr("x", function(d){ 
-					return projection([d.lat_lng.lng, d.lat_lng.lat])[0] })
-				.attr("y", function(d){ 
-					return projection([d.lat_lng.lng, d.lat_lng.lat])[1] })
-				.attr('font-size','0.7em')
-				.attr('fill','#ffffff')
-					.text(function(d) { 
-						if(map_selectedSizeAtt=='Gesamtwertung') {
-							if(d.Rang<=10) {
-								return d.Rang+'. '+d.name;
-							}
-						} else {
-							if(d.inhabitants>500000) {
-								return d.name;
-							} else {
-								return '';
-							}
-						}
-				})
+		drawBubbles();
 			
 			
 	});
 }
+
+
+function drawBubbles(){
+	//console.log("drawbubbles", city_markers);
+	
+	//remove last bubbles
+	d3.selectAll(".circleMap").remove();
+
+	// Add circles:
+	bubbles = svg
+	.selectAll("circles")
+	.data(city_markers)
+	.enter()
+	.append("circle")
+		.attr("cx", function(d){ 
+			return projection([d.lat_lng.lng, d.lat_lng.lat])[0] })
+		.attr("cy", function(d){ 
+			return projection([d.lat_lng.lng, d.lat_lng.lat])[1] })
+		.attr("r", function(d) {
+				if(map_selectedSizeAtt=='size') {
+					var size=d['size'];
+					return Math.ceil(18/size_max*size); 
+				} else if(map_selectedSizeAtt=='inhabitants') {
+					var inh=d['inhabitants'];
+					return Math.ceil(30/inh_max*inh);
+				} else if(map_selectedSizeAtt=='Gesamtwertung') {
+					return Math.ceil((d['Gesamtwertung']-20)/5);
+				}
+				
+			}
+		)
+		.attr("class","circleMap")
+			.style("fill", function(d) { return getColorMap(d); })
+		.attr("stroke", "#69b3a2")
+		.attr("stroke-width", 1)
+		.attr("fill-opacity", 1)
+		.on("mouseover", function(d) {		
+			div.transition()		
+				.duration(200)		
+				.style("opacity", .9);		
+			div	.html('<b>'+d.name+'</b><br>Bundesland: '+d.land+
+					'<br>Einwohner: '+d.inhabitants+'<br>Fläche: '+d.size+' km2'+
+					'<br>Gesamtwertung: '+d.Gesamtwertung+
+					'<br>Verwaltung: '+d.Verwaltung+
+					'<br>IT und Kommunikation: '+d['IT und Kommunikation']+
+					'<br>Energie und Umwelt: '+d['Energie und Umwelt']+
+					'<br>Mobilität: '+d.Mobilität+
+					'<br>Gesellschaft: '+d.Gesellschaft+'<br>')	
+				.style('color','white')
+				.style('background',function() { 
+					var txt=this.innerHTML;
+					txt=txt.substring(txt.indexOf(map_selectedAtt)+map_selectedAtt.length+2)
+					txt=txt.substring(0,txt.indexOf('<br>'));
+					var obj={};
+					obj[map_selectedAtt]=parseFloat(txt);
+					return getColorMap(obj); 
+				})
+				.style("left", (d3.event.pageX+30) + "px")		
+				.style("top", (d3.event.pageY - 28) + "px")
+				.style("width",150+'px')
+				.style("height",180+'px');	
+		})	
+		.on("mouseout", function(d) {		
+			div.transition()		
+				.duration(500)		
+				.style("opacity", 0);	
+		})
+	//console.log(city_markers);
+
+	d3.selectAll(".bubbleText").remove();
+
+	svg.selectAll('text')
+		.data(city_markers)
+		.enter()
+		.append('svg:text')
+			.attr("class","bubbleText")
+			.attr("x", function(d){ 
+				return projection([d.lat_lng.lng, d.lat_lng.lat])[0] })
+			.attr("y", function(d){ 
+				return projection([d.lat_lng.lng, d.lat_lng.lat])[1] })
+			.attr('font-size','0.7em')
+			.attr('fill', 'white')
+				.text(function(d) { 
+					if(map_selectedAtt=='Gesamtwertung') {
+						if(d.Rang<=10) {
+							return d.Rang+'. '+d.name;
+						}
+					} else {
+						if(d.inhabitants>500000) {
+							return d.name;
+						} else {
+							return '';
+						}
+					}
+				})
+
+}
+
+//update bubble size and color, when filter changes
+function updateBubbles(){
+	bubbles
+		.transition().duration(500)
+		.attr("r", function(d) {
+			if(map_selectedSizeAtt=='size') {
+				var size=d['size'];
+				return Math.ceil(18/size_max*size); 
+			} else if(map_selectedSizeAtt=='inhabitants') {
+				var inh=d['inhabitants'];
+				return Math.ceil(30/inh_max*inh);
+			} else if(map_selectedSizeAtt=='Gesamtwertung') {
+				return Math.ceil((d['Gesamtwertung']-20)/5);
+			}
+			
+		}
+		)
+		.style("fill", function(d) { return getColorMap(d); })
+		
+}
+
+//initialise map and bubbles
+drawMap();

@@ -127,7 +127,7 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
     height = 450 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#wordcloud").append("svg")
+var svgWordcloud = d3.select("#wordcloud").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -148,7 +148,7 @@ layout.start();
 // This function takes the output of 'layout' above and draw the words
 // Wordcloud features that are THE SAME from one word to the other can be here
 function draw(words) {
-  svg
+	svgWordcloud
     .append("g")
       .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
       .selectAll("text")

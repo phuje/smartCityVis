@@ -308,7 +308,7 @@
     if(category== "Gesamtwertung"){
       return;
     }
-    
+
     var orderedData;
     orderedData = myData;
 
@@ -342,6 +342,7 @@
 
     myRect
       .transition().duration(800)
+        //.delay((d, i) => i * 20)
       .attr("x", function(d) { return xRanking(d.Stadt); } )
       .attr("width", xRanking.bandwidth());
   }
