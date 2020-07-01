@@ -170,6 +170,7 @@
 
     xAxis
       .attr("transform", "translate(0," + heightRanking + ")")
+      .transition().duration(800)
       .call(d3.axisBottom(xRanking))
       .selectAll("text")
         .attr("transform", "translate(-10,0)rotate(-45)")
