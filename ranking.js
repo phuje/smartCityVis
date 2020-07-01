@@ -65,9 +65,9 @@
 
       console.log(txt);*/
 
-
+/*
       console.log("Staedte Insgesamt: ", numberCities);
-      console.log("data", data);
+      console.log("data", data);*/
 
       makeBarChart();
     }
@@ -286,7 +286,6 @@
     orderedData = myData;
 
     if(document.getElementById("orderCheckbox").checked){ //order by current category
-      console.log("orderRanking");
         
       orderedData.sort(function(b, a) {
         return a[category] - b[category];
@@ -300,8 +299,50 @@
     }
       
     drawRanking(orderedData);
-    //console.log("FINAL ordereddata",orderedData);
 
   }
 
+  //if sort was checked or unchecked
+  function updateOrder(){
+
+    if(category== "Gesamtwertung"){
+      return;
+    }
+    
+    var orderedData;
+    orderedData = myData;
+
+    if(document.getElementById("orderCheckbox").checked){ //order by current category
+      //console.log("orderRanking");
+        
+      orderedData.sort(function(b, a) {
+        return a[category] - b[category];
+      });
+
+    } 
+    else{ // take initial order from high to low Gesamtwertung
+      orderedData.sort(function(b, a) {
+        return a["Gesamtwertung"] - b["Gesamtwertung"];
+      });
+    }
+  
+
+    xRanking = d3.scaleBand()
+        .domain(orderedData.map(function(d) { return d.Stadt; })) // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+        .range([0, currentWidth-marginRanking.left-marginRanking.right])
+        .padding(0.1);
+
+    xAxis
+      .attr("transform", "translate(0," + heightRanking + ")")
+      .transition().duration(800)
+      .call(d3.axisBottom(xRanking))
+      .selectAll("text")
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
+
+    myRect
+      .transition().duration(800)
+      .attr("x", function(d) { return xRanking(d.Stadt); } )
+      .attr("width", xRanking.bandwidth());
+  }
 }
