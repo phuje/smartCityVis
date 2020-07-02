@@ -255,32 +255,36 @@ function drawBubbles(){
 		})
 	//console.log(city_markers);
 
-	d3.selectAll(".bubbleText").remove();
+	
+		// text
+		d3.selectAll(".bubbleText").remove();
 
-	svg.selectAll('text')
-		.data(city_markers)
-		.enter()
-		.append('svg:text')
-			.attr("class","bubbleText")
-			.attr("x", function(d){ 
-				return projection([d.lat_lng.lng, d.lat_lng.lat])[0] })
-			.attr("y", function(d){ 
-				return projection([d.lat_lng.lng, d.lat_lng.lat])[1] })
-			.attr('font-size','0.7em')
-			.attr('fill', 'white')
-				.text(function(d) { 
-					if(map_selectedAtt=='Gesamtwertung') {
-						if(d.Rang<=10) {
-							return d.Rang+'. '+d.name;
+		svg.selectAll('text')
+			.data(city_markers)
+			.enter()
+			.append('svg:text')
+				.attr("class","bubbleText")
+				.attr("x", function(d){ 
+					return projection([d.lat_lng.lng, d.lat_lng.lat])[0] })
+				.attr("y", function(d){ 
+					return projection([d.lat_lng.lng, d.lat_lng.lat])[1] })
+				.attr('font-size','0.7em')
+				.attr('fill', 'white')
+					.text(function(d) { 
+						if(map_selectedAtt=='Gesamtwertung') {
+							if(d.Rang<=10) {
+								return d.Rang+'. '+d.name;
+							}
+						} 
+						else {
+							if(d.inhabitants>500000) {
+								return d.name;
+							} else {
+								return '';
+							}
 						}
-					} else {
-						if(d.inhabitants>500000) {
-							return d.name;
-						} else {
-							return '';
-						}
-					}
-				})
+					})
+	
 
 }
 

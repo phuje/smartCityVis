@@ -29,13 +29,14 @@
       /*myData.sort(function(b, a) {
         return a.Gesamtwertung - b.Gesamtwertung;
       });*/
-
-      /*var txt="Rang,Stadt,Gesamtwertung,Verwaltung,IT und Kommunikation,Energie und Umwelt,Mobilität,Gesellschaft,Einwohner\n";
+/*
+      var txt="Rang,Stadt,Gesamtwertung,Verwaltung,IT und Kommunikation,Energie und Umwelt,Mobilität,Gesellschaft,Einwohner,Area\n";
       for (var i = 0; i < data.length; i++) {
         var row = data[i];
         txt+= row.Rang+","+row.Stadt+","+row.Gesamtwertung+","+row.Verwaltung+","+row["IT und Kommunikation"]+","+row["Energie und Umwelt"]+","+row["Mobilität"]+","+row.Gesellschaft;
       
         var inh;
+        var size;
         var found = false;
         
         for(var j=0; j<cityDetails.length; j++){
@@ -53,6 +54,16 @@
               inh=parseInt(inh);
                     
               txt+=","+inh+"";
+            }
+            if(cityDetails[j].size == null){
+              console.log("no area "+cityDetails[j].name);
+              txt+=",UNDEFINED";
+            } else{
+              size=cityDetails[j].size;
+              size=size.replace('\u00a0km2\n','');
+              size=size.replace(',','.');
+              size=parseInt(size);
+              txt+=","+size+"";
             }
             found = true;
           }
@@ -215,7 +226,7 @@
     //console.log("showTooltip"+x(d.Stadt));
     tooltip
       .style("opacity", 1)
-      .html(d.Stadt +"<br> Score: "+ d[category])
+      .html("<b>"+d.Stadt +"</b><br> Score: "+ d[category]+"<br> Rang: "+d.Rang)
       //.style("left", (d3.mouse(this)[0]+70) + "px")
       //.style("top", (d3.mouse(this)[1]) + "px")
       //.style("top", yRanking(d[category])+130+ "px")

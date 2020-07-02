@@ -16,8 +16,11 @@ body {
   box-sizing: inherit;
 }
 
-#headerTitle{
-  padding: 10px;
+.header{
+  text-align: center;
+  /*background: #1abc9c;*/
+  /*font-size: 2em;*/
+  margin-top: 0px;
 }
 
 .mainDiv{

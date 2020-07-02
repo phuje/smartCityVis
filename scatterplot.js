@@ -22,7 +22,7 @@
     var horizontalGridLines;
 
     //Read the data
-    d3.csv("https://raw.githubusercontent.com/phuje/smartCityVis/master/data/smartCityData-inhabitants.csv", function(data) {
+    d3.csv("https://raw.githubusercontent.com/phuje/smartCityVis/master/data/smartCityData-inhabitants-area.csv", function(data) {
 
         drawScatterplot(data);
 
@@ -56,7 +56,7 @@
                 .attr("class", "circleScatter")
                 .attr("cx", function (d) { return xScatter(d.Gesamtwertung); } )
                 .attr("cy", function (d) { return yScatter(d.Einwohner); } )
-                .attr("r", 4)
+                .attr("r", function(d){return 4;/* return d.Area/50;*/})
                 .style("fill", getColorByGesamtwertung)
                 .on("mouseover", showTooltipScatter)
                 .on("mouseleave", hideTooltipScatter)
@@ -165,7 +165,7 @@
     //console.log("showTooltip"+x(d.Stadt));
     tooltipScatter
       .style("opacity", 1)
-      .html(d.Stadt +"<br> Gesamtwertung: "+ d.Gesamtwertung +"<br> Einwohner: "+d.Einwohner)
+      .html("<b>"+d.Stadt+"</b><br> Gesamtwertung: "+ d.Gesamtwertung +"<br> Einwohner: "+d.Einwohner)
       //.style("left", (d3.mouse(this)[0]+70) + "px")
       //.style("top", (d3.mouse(this)[1]) + "px")
       //.style("top", yScatter(d.Einwohner)+160+ "px")
