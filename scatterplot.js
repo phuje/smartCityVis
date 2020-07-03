@@ -56,7 +56,7 @@
                 .attr("class", "circleScatter")
                 .attr("cx", function (d) { return xScatter(d.Gesamtwertung); } )
                 .attr("cy", function (d) { return yScatter(d.Einwohner); } )
-                .attr("r", function(d){return 4;/* return d.Area/50;*/})
+                .attr("r", function(d){/*return 4;*/ return d.Area/50;})
                 .style("fill", getColorByGesamtwertung)
                 .on("mouseover", showTooltipScatter)
                 .on("mouseleave", hideTooltipScatter)
