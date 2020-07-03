@@ -80,6 +80,9 @@ function initMinMaxVals() {
 				}
 				i++;
 			}
+
+			//initialise map and bubbles
+			drawMap();
 		});
 }
 
@@ -309,5 +312,3 @@ function updateBubbles(){
 		
 }
 
-//initialise map and bubbles
-drawMap();
