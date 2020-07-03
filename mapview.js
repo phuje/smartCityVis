@@ -304,8 +304,8 @@ function updateBubbles(){
 			}
 			
 		}
-		)
-		.style("fill", function(d) { return getColorMap(d); })
+		);
+	bubbles.style("fill", function(d) { return getColorMap(d); })
 		
 }
 
