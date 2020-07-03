@@ -271,3 +271,17 @@ div.tooltip {
   stroke-width: 1px;
 }
 
+#wordcloud{
+  float:left;
+  width:35%;
+  margin:5px;
+  height:500px;
+}
+
+#mapview{
+  float:left;
+  width:30%;
+  margin:5px;
+  height:500px; 
+  background:gainsboro;
+}

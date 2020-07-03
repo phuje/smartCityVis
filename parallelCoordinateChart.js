@@ -66,9 +66,13 @@ function visualise_parallel_coordinates(id,att_col,atts) {
 
 		function createParallelCoordinates(id,dat,att_info) {
 			document.getElementById(id).innerHTML='';
+
+			var currentWidth = parseInt(d3.select('#pcpDiv').style('width'), 10);
+			console.log("pcpDiv", currentWidth);
+
 			  // set the dimensions and margins of the graph
 			var margin = {top: 66, right: 50, bottom: 20, left: 50},
-				width = 800 - margin.left - margin.right,
+				width = currentWidth - margin.left - margin.right,
 				height = 550 - margin.top - margin.bottom, innerHeight = height - 2;
 			
 
@@ -204,7 +208,7 @@ function visualise_parallel_coordinates(id,att_col,atts) {
 				.attr("x", -8)
 				.attr("width", 16);
 
-			// ---------------------------//
+// ---------------------------//
   //      Info                 //
   // ---------------------------//
 
